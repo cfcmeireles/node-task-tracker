@@ -1,5 +1,16 @@
-{
-  "todo": ["Do laundry", "Buy groceries"],
-  "inProgress": ["Complete homework"],
-  "done": ["Clean the house"]
-}
+[
+  {
+    "id": 1,
+    "description": "Do laundry",
+    "status": "todo",
+    "createdAt": "9/7/2024, 6:55:35 PM GMT+1",
+    "updatedAt": ""
+  },
+  {
+    "id": 2,
+    "description": "Clean the house",
+    "status": "todo",
+    "createdAt": "9/7/2024, 6:55:35 PM GMT+1",
+    "updatedAt": ""
+  }
+]
