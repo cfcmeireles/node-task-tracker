@@ -1,0 +1,5 @@
+{
+  "todo": ["Do laundry", "Buy groceries"],
+  "inProgress": ["Complete homework"],
+  "done": ["Clean the house"]
+}
