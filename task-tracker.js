@@ -1,48 +1,41 @@
 const fs = require("fs");
 let tasks;
-let taskDescription;
 let taskId;
 let taskStatus;
 let tasksClone;
-const args = process.argv.slice(2);
-const command = args[0];
-const userInput = args[1];
-const updateTask = args[2];
+
 const currentDate = new Date().toLocaleString("en-US", {
   timeZoneName: "short",
 });
 
-// Commands
-if (command === "list" && !userInput) {
+// Command handlers
+const listTasks = (status) => {
   setImmediate(() => {
     readTasksFile(() => {
-      console.log(taskDescription);
-    });
-  });
-}
-
-if (command === "list" && userInput) {
-  setImmediate(() => {
-    readTasksFile(() => {
-      taskStatus = tasks.map((task) => task.status);
-      for (var i = 0; i < taskStatus.length; i++) {
-        // Log tasks with selected status to the console
-        if (taskStatus[i] === userInput) {
-          console.log(tasks[i].description);
+      if (status) {
+        taskStatus = tasks.map((task) => task.status);
+        for (var i = 0; i < taskStatus.length; i++) {
+          // Log tasks with selected status to the console
+          if (taskStatus[i] === status) {
+            console.log(tasks[i].description);
+          }
         }
+      } else {
+        // Log all tasks
+        tasks.forEach((task) => console.log(task.description));
       }
     });
   });
-}
+};
 
-if (command === "add") {
+const addTask = (description) => {
   setImmediate(() => {
     readTasksFile(() => {
       taskId = tasks[tasks.length - 1];
       // Create new task object
       const newTask = {
         id: taskId.id + 1,
-        description: userInput,
+        description: description,
         status: "todo",
         createdAt: currentDate,
         updatedAt: "",
@@ -53,70 +46,54 @@ if (command === "add") {
       console.log(`Task added successfully (ID: ${taskId.id + 1})`);
     });
   });
-}
+};
 
-if (command === "update" && updateTask) {
+const updateTask = (id, updatedTask) => {
   setImmediate(() => {
     readTasksFile(() => {
       taskId = tasks.map((task) => task.id);
       for (var i = 0; i < taskId.length; i++) {
         // Update selected task's description
-        if (taskId[i] === parseInt(userInput)) {
-          tasks[i].description = updateTask;
+        if (taskId[i] === parseInt(id)) {
+          tasks[i].description = updatedTask;
           tasks[i].updatedAt = currentDate;
         }
       }
       writeTasksFile(tasks);
     });
   });
-}
+};
 
-if (command === "delete") {
+const deleteTask = (id) => {
   setImmediate(() => {
     readTasksFile(() => {
       taskId = tasks.map((task) => task.id);
       for (var i = 0; i < taskId.length; i++) {
         // Delete selected task
-        if (taskId[i] === parseInt(userInput)) {
-          tasks = tasks.filter((task) => task.id !== parseInt(userInput));
+        if (taskId[i] === parseInt(id)) {
+          tasks = tasks.filter((task) => task.id !== parseInt(id));
         }
       }
       writeTasksFile(tasks);
     });
   });
-}
+};
 
-if (command === "mark-in-progress") {
+const updateTaskStatus = (id, command) => {
   setImmediate(() => {
     readTasksFile(() => {
       taskId = tasks.map((task) => task.id);
       for (var i = 0; i < taskId.length; i++) {
-        // Change selected task's status to "in-progress"
-        if (taskId[i] === parseInt(userInput)) {
-          tasks[i].status = "in-progress";
+        // Change selected task's status
+        if (taskId[i] === parseInt(id)) {
+          tasks[i].status = command;
           tasks[i].updatedAt = currentDate;
         }
       }
       writeTasksFile(tasks);
     });
   });
-}
-
-if (command === "mark-done") {
-  setImmediate(() => {
-    readTasksFile(() => {
-      taskId = tasks.map((task) => task.id);
-      for (var i = 0; i < taskId.length; i++) {
-        // Change selected task's status to "done"
-        if (taskId[i] === parseInt(userInput)) {
-          tasks[i].status = "done";
-          tasks[i].updatedAt = currentDate;
-        }
-      }
-      writeTasksFile(tasks);
-    });
-  });
-}
+};
 
 // Read file
 const readTasksFile = (callback) => {
@@ -127,7 +104,6 @@ const readTasksFile = (callback) => {
     }
     try {
       tasks = JSON.parse(data);
-      taskDescription = tasks.map((task) => task.description);
     } catch (err) {
       console.log("Error parsing JSON:", err);
     }
@@ -143,4 +119,12 @@ const writeTasksFile = (tasksClone) => {
       return;
     }
   });
+};
+
+module.exports = {
+  listTasks,
+  addTask,
+  updateTask,
+  deleteTask,
+  updateTaskStatus,
 };

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "task-tracker.js",
   "bin": {
-    "task-cli": "./task-tracker.js"
+    "task-cli": "./commands.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
