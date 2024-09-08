@@ -2,6 +2,7 @@ const fs = require("fs");
 let tasks;
 let taskDescription;
 let taskId;
+let taskStatus;
 let tasksClone;
 const args = process.argv.slice(2);
 const command = args[0];
@@ -12,10 +13,24 @@ const currentDate = new Date().toLocaleString("en-US", {
 });
 
 // Commands
-if (command === "list") {
+if (command === "list" && !userInput) {
   setImmediate(() => {
     readTasksFile(() => {
       console.log(taskDescription);
+    });
+  });
+}
+
+if (command === "list" && userInput) {
+  setImmediate(() => {
+    readTasksFile(() => {
+      taskStatus = tasks.map((task) => task.status);
+      for (var i = 0; i < taskStatus.length; i++) {
+        // Log tasks with selected status to the console
+        if (taskStatus[i] === userInput) {
+          console.log(tasks[i].description);
+        }
+      }
     });
   });
 }
