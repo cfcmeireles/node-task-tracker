@@ -71,6 +71,38 @@ if (command === "delete") {
   });
 }
 
+if (command === "mark-in-progress") {
+  setImmediate(() => {
+    readTasksFile(() => {
+      taskId = tasks.map((task) => task.id);
+      for (var i = 0; i < taskId.length; i++) {
+        // Change selected task's status to "in-progress"
+        if (taskId[i] === parseInt(userInput)) {
+          tasks[i].status = "in-progress";
+          tasks[i].updatedAt = currentDate;
+        }
+      }
+      writeTasksFile(tasks);
+    });
+  });
+}
+
+if (command === "mark-done") {
+  setImmediate(() => {
+    readTasksFile(() => {
+      taskId = tasks.map((task) => task.id);
+      for (var i = 0; i < taskId.length; i++) {
+        // Change selected task's status to "done"
+        if (taskId[i] === parseInt(userInput)) {
+          tasks[i].status = "done";
+          tasks[i].updatedAt = currentDate;
+        }
+      }
+      writeTasksFile(tasks);
+    });
+  });
+}
+
 // Read file
 const readTasksFile = (callback) => {
   fs.readFile("tasks.json", "utf8", (err, data) => {
