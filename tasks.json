@@ -2,9 +2,9 @@
   {
     "id": 1,
     "description": "Do laundry",
-    "status": "todo",
+    "status": "done",
     "createdAt": "9/7/2024, 6:55:35 PM GMT+1",
-    "updatedAt": ""
+    "updatedAt": "9/8/2024, 12:22:03 PM GMT+1"
   },
   {
     "id": 2,
@@ -12,5 +12,12 @@
     "status": "todo",
     "createdAt": "9/7/2024, 6:55:35 PM GMT+1",
     "updatedAt": "9/7/2024, 11:14:04 PM GMT+1"
+  },
+  {
+    "id": 3,
+    "description": "Grocery shopping",
+    "status": "in-progress",
+    "createdAt": "9/8/2024, 12:22:58 PM GMT+1",
+    "updatedAt": "9/8/2024, 12:23:22 PM GMT+1"
   }
 ]
