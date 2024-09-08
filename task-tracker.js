@@ -56,6 +56,21 @@ if (command === "update" && updateTask) {
   });
 }
 
+if (command === "delete") {
+  setImmediate(() => {
+    readTasksFile(() => {
+      taskId = tasks.map((task) => task.id);
+      for (var i = 0; i < taskId.length; i++) {
+        // Delete selected task
+        if (taskId[i] === parseInt(userInput)) {
+          tasks = tasks.filter((task) => task.id !== parseInt(userInput));
+        }
+      }
+      writeTasksFile(tasks);
+    });
+  });
+}
+
 // Read file
 const readTasksFile = (callback) => {
   fs.readFile("tasks.json", "utf8", (err, data) => {
